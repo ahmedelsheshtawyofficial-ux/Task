@@ -1,0 +1,3686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FP&A × BIDA — Study Plan</title>
+
+<style>
+  :root{
+    --bg:#FAFAF9;
+    --surface:#FFFFFF;
+    --surface-elevated:#FFFFFF;
+    --ink:#1C1C1E;
+    --ink-secondary:#57575C;
+    --ink-muted:#9A9A9E;
+    --border:#E7E6E2;
+    --accent:#C41E3A;
+    --accent-ink:#8A1425;
+    --accent-tint:#FCEBEE;
+    --bida-accent:#1C1C1E;
+    --bida-tint:#F0F0F0;
+    --success:#1F7A4D;
+    --success-tint:#E9F5EE;
+    --warning:#9A6B0A;
+    --shadow-sm:0 1px 2px rgba(28,28,30,0.04),0 1px 1px rgba(28,28,30,0.03);
+    --shadow-md:0 4px 16px rgba(28,28,30,0.06),0 1px 3px rgba(28,28,30,0.05);
+    --radius-sm:8px;
+    --radius-md:12px;
+    --radius-lg:18px;
+    --font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:"SF Mono","IBM Plex Mono","Roboto Mono","Courier New",monospace;
+    --dur:180ms;
+    --ease:cubic-bezier(0.2,0.6,0.2,1);
+  }
+
+  [data-theme="dark"]{
+    --bg:#0E0E11;
+    --surface:#18181C;
+    --surface-elevated:#1E1E23;
+    --ink:#F1F0ED;
+    --ink-secondary:#B4B3B8;
+    --ink-muted:#75757C;
+    --border:#2A2A30;
+    --accent:#E23B57;
+    --accent-ink:#FF6B84;
+    --accent-tint:#2A1519;
+    --bida-accent:#F1F0ED;
+    --bida-tint:#232328;
+    --success:#3FBE82;
+    --success-tint:#132420;
+    --warning:#D9A441;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md:0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{-webkit-text-size-adjust:100%}
+
+  body{
+    margin:0;
+    font-family:var(--font-ui);
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+    min-height:100vh;
+  }
+
+  .tabular{font-variant-numeric:tabular-nums}
+  .mono{font-family:var(--font-mono)}
+  button{font-family:inherit}
+  a{color:inherit}
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+
+  .visually-hidden{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+
+  .shell{
+    max-width:880px;
+    margin:0 auto;
+    padding:0 20px 96px;
+  }
+
+  /* HEADER */
+
+  header.app-header{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+
+  .header-inner{
+    max-width:880px;
+    margin:0 auto;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+  }
+
+  .brand-mark{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:linear-gradient(155deg,var(--ink) 0%,var(--ink) 55%,var(--accent) 55%,var(--accent) 100%);
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.02em;
+    font-family:var(--font-mono);
+  }
+
+  [data-theme="dark"] .brand-mark{
+    background:linear-gradient(155deg,#2C2C30 0%,#2C2C30 55%,var(--accent) 55%,var(--accent) 100%);
+  }
+
+  .brand-text{min-width:0}
+
+  .brand-title{
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    line-height:1.2;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .brand-title .x{
+    color:var(--ink-muted);
+    font-weight:500;
+    margin:0 2px;
+  }
+
+  .brand-sub{
+    font-size:11.5px;
+    color:var(--ink-muted);
+    line-height:1.2;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .header-actions{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex:none;
+  }
+
+  .icon-btn{
+    width:38px;
+    height:38px;
+    min-width:44px;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    border:1px solid var(--border);
+    border-radius:10px;
+    color:var(--ink-secondary);
+    cursor:pointer;
+    transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease);
+  }
+
+  .icon-btn:hover{
+    background:var(--surface-elevated);
+    color:var(--ink);
+    border-color:var(--ink-muted);
+  }
+
+  .icon-btn svg{
+    width:17px;
+    height:17px;
+  }
+
+  .header-date{
+    font-size:12.5px;
+    color:var(--ink-muted);
+    display:none;
+  }
+
+  @media(min-width:620px){
+    .header-date{display:block}
+  }
+
+  .live-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.03em;
+    color:var(--success);
+    background:var(--success-tint);
+    padding:5px 10px;
+    border-radius:99px;
+  }
+
+  .live-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--success);
+    animation:pulseDot 2s infinite;
+  }
+
+  @keyframes pulseDot{
+    0%{box-shadow:0 0 0 0 rgba(31,122,77,.45)}
+    70%{box-shadow:0 0 0 6px rgba(31,122,77,0)}
+    100%{box-shadow:0 0 0 0 rgba(31,122,77,0)}
+  }
+
+  .edit-mode-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    height:30px;
+    padding:0 10px 0 8px;
+    border-radius:99px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink-muted);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.01em;
+    cursor:pointer;
+    min-height:30px;
+  }
+
+  .edit-mode-btn.unlocked{
+    color:var(--success);
+    background:var(--success-tint);
+    border-color:transparent;
+  }
+
+  .edit-mode-btn svg{
+    width:13px;
+    height:13px;
+  }
+
+  .task-check.locked{
+    cursor:default;
+    opacity:.55;
+  }
+
+  .task-check.locked:hover{
+    background:var(--surface);
+  }
+
+  .passcode-input{
+    width:100%;
+    height:44px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:16px;
+    padding:0 14px;
+    margin-bottom:8px;
+    font-family:var(--font-mono);
+    letter-spacing:.15em;
+  }
+
+  .modal-error{
+    font-size:12.5px;
+    color:var(--accent);
+    margin:-2px 0 12px;
+    min-height:16px;
+  }
+
+  /* SECTIONS */
+
+  section{margin-top:28px}
+
+  .eyebrow{
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .section-heading{
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    margin:0 0 2px;
+  }
+
+  .section-sub{
+    font-size:13px;
+    color:var(--ink-muted);
+    margin:0;
+  }
+
+  .section-head-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  /* STATE */
+
+  .state-banner{
+    margin-top:24px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    background:var(--surface);
+    padding:28px 24px;
+    text-align:center;
+  }
+
+  .state-banner .eyebrow{
+    display:block;
+    margin-bottom:8px;
+  }
+
+  .state-banner h2{
+    margin:0 0 6px;
+    font-size:22px;
+  }
+
+  .state-banner p{
+    margin:0;
+    color:var(--ink-secondary);
+    font-size:14px;
+  }
+
+  /* HERO */
+
+  .hero{
+    margin-top:22px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .hero-left{min-width:0}
+
+  .hero-date{
+    font-size:clamp(22px,5vw,30px);
+    font-weight:800;
+    letter-spacing:-.02em;
+    line-height:1.1;
+    margin:6px 0;
+  }
+
+  .hero-daycount{
+    font-size:13px;
+    color:var(--ink-secondary);
+  }
+
+  .hero-daycount .tabular{
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  .hero-right{
+    flex:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+
+  .ring-wrap{
+    position:relative;
+    width:78px;
+    height:78px;
+  }
+
+  .ring-wrap svg{
+    width:100%;
+    height:100%;
+    transform:rotate(-90deg);
+  }
+
+  .ring-track{
+    fill:none;
+    stroke:var(--border);
+    stroke-width:7;
+  }
+
+  .ring-progress{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:7;
+    stroke-linecap:round;
+    transition:stroke-dashoffset 400ms var(--ease);
+  }
+
+  .ring-label{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:800;
+    font-family:var(--font-mono);
+  }
+
+  .ring-caption{
+    font-size:11px;
+    color:var(--ink-muted);
+    text-align:center;
+  }
+
+  @media(max-width:480px){
+    .hero{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .hero-right{
+      align-self:center;
+    }
+  }
+
+  /* STATS */
+
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:14px;
+  }
+
+  .stat-card{
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    padding:16px 14px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .stat-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+
+  .stat-icon{
+    width:30px;
+    height:30px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink-secondary);
+    background:var(--bg);
+  }
+
+  .stat-icon svg{
+    width:16px;
+    height:16px;
+  }
+
+  .stat-icon.accent{
+    color:var(--accent);
+    background:var(--accent-tint);
+  }
+
+  .stat-icon.dark{
+    color:var(--bida-accent);
+    background:var(--bida-tint);
+  }
+
+  .stat-value{
+    font-family:var(--font-mono);
+    font-size:22px;
+    font-weight:700;
+  }
+
+  .stat-label{
+    font-size:11.5px;
+    color:var(--ink-muted);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-top:4px;
+    font-weight:600;
+  }
+
+  @media(max-width:420px){
+    .stat-value{font-size:19px}
+    .stat-card{padding:13px 10px}
+  }
+
+  /* TASKS */
+
+  .track-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:22px 0 10px;
+  }
+
+  .track-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    flex:none;
+  }
+
+  .track-dot.fpap{background:var(--accent)}
+  .track-dot.bida{background:var(--bida-accent)}
+
+  .track-name{
+    font-size:14px;
+    font-weight:700;
+  }
+
+  .track-hours{
+    font-size:12.5px;
+    color:var(--ink-muted);
+    margin-left:auto;
+    font-family:var(--font-mono);
+  }
+
+  .task-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .task-card{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    padding:13px 14px;
+    transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),opacity var(--dur) var(--ease);
+  }
+
+  .task-card:hover{
+    border-color:var(--ink-muted);
+  }
+
+  .task-card.completed{
+    background:var(--bg);
+  }
+
+  .task-check{
+    flex:none;
+    width:22px;
+    height:22px;
+    margin-top:1px;
+    border-radius:6px;
+    border:1.6px solid var(--border);
+    background:var(--surface);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:22px;
+    transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease);
+    position:relative;
+  }
+
+  .task-check::before{
+    content:"";
+    position:absolute;
+    inset:-11px;
+  }
+
+  .task-check svg{
+    width:13px;
+    height:13px;
+    opacity:0;
+    transform:scale(.6);
+    transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);
+    color:#fff;
+  }
+
+  .task-check.checked{
+    background:var(--success);
+    border-color:var(--success);
+  }
+
+  .task-check.checked svg{
+    opacity:1;
+    transform:scale(1);
+  }
+
+  .task-body{
+    flex:1;
+    min-width:0;
+  }
+
+  .task-title{
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:-.005em;
+    line-height:1.4;
+  }
+
+  .task-card.completed .task-title{
+    color:var(--ink-muted);
+    text-decoration:line-through;
+    text-decoration-color:var(--ink-muted);
+    text-decoration-thickness:1.5px;
+  }
+
+  .task-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+  }
+
+  .task-hours{
+    font-size:12px;
+    color:var(--ink-secondary);
+    font-family:var(--font-mono);
+  }
+
+  .badge{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border-radius:5px;
+  }
+
+  .badge.fpap{
+    color:var(--accent);
+    background:var(--accent-tint);
+  }
+
+  .badge.bida{
+    color:var(--bida-accent);
+    background:var(--bida-tint);
+  }
+
+  .empty-state{
+    border:1px dashed var(--border);
+    border-radius:var(--radius-md);
+    padding:18px 16px;
+    text-align:center;
+    color:var(--ink-muted);
+    font-size:13px;
+    background:var(--bg);
+  }
+
+  /* PROGRESS */
+
+  .completion-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:20px;
+    gap:10px;
+  }
+
+  .completion-text{
+    font-size:13px;
+    color:var(--ink-secondary);
+    font-weight:600;
+  }
+
+  .completion-pct{
+    font-size:13px;
+    font-family:var(--font-mono);
+    font-weight:700;
+  }
+
+  .progress-track{
+    height:7px;
+    border-radius:99px;
+    background:var(--border);
+    overflow:hidden;
+    margin-top:8px;
+  }
+
+  .progress-fill{
+    height:100%;
+    border-radius:99px;
+    background:var(--accent);
+    transition:width 350ms var(--ease);
+  }
+
+  .progress-fill.success{
+    background:var(--success);
+  }
+
+  /* NAV */
+
+  .day-nav{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:24px;
+  }
+
+  .nav-btn{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:44px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  .nav-btn:hover:not(:disabled){
+    background:var(--surface-elevated);
+    border-color:var(--ink-muted);
+  }
+
+  .nav-btn:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+  }
+
+  .nav-btn.today{
+    flex:0 0 auto;
+    padding:0 18px;
+    background:var(--ink);
+    color:var(--bg);
+    border-color:var(--ink);
+  }
+
+  [data-theme="dark"] .nav-btn.today{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+
+  .nav-btn svg{
+    width:15px;
+    height:15px;
+  }
+
+  /* DATE */
+
+  .date-picker-wrap{
+    margin-top:12px;
+    position:relative;
+  }
+
+  .date-picker-input{
+    width:100%;
+    height:44px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    font-size:13.5px;
+    padding:0 14px;
+    font-family:var(--font-ui);
+    cursor:pointer;
+  }
+
+  [data-theme="dark"] .date-picker-input::-webkit-calendar-picker-indicator{
+    filter:invert(1);
+  }
+
+  /* PLAN */
+
+  .plan-card{
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:20px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .plan-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .plan-frac{
+    font-size:26px;
+    font-weight:800;
+    font-family:var(--font-mono);
+  }
+
+  .plan-pct{
+    font-size:14px;
+    color:var(--ink-muted);
+    font-family:var(--font-mono);
+    font-weight:700;
+  }
+
+  .plan-meta-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:18px;
+  }
+
+  .plan-meta-item{text-align:left}
+
+  .plan-meta-label{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.07em;
+    color:var(--ink-muted);
+    font-weight:700;
+  }
+
+  .plan-meta-value{
+    font-size:13.5px;
+    font-weight:700;
+    margin-top:4px;
+    font-family:var(--font-mono);
+  }
+
+  /* SIDE */
+
+  .side-card{
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    padding:16px;
+    margin-top:12px;
+  }
+
+  .side-card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+
+  .side-card-label{
+    font-size:11.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-muted);
+  }
+
+  .side-card-date{
+    font-size:14.5px;
+    font-weight:700;
+    margin-top:2px;
+  }
+
+  .side-card-hours{
+    font-size:12px;
+    color:var(--ink-secondary);
+    font-family:var(--font-mono);
+  }
+
+  .side-card-list{
+    margin:8px 0 0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .side-card-list li{
+    font-size:12.5px;
+    color:var(--ink-secondary);
+    display:flex;
+    gap:6px;
+  }
+
+  .side-card-list li b{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  .view-day-btn{
+    margin-top:12px;
+    height:38px;
+    padding:0 16px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--ink);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .view-day-btn:hover{
+    background:var(--surface-elevated);
+    border-color:var(--ink-muted);
+  }
+
+  .prev-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--ink-secondary);
+  }
+
+  .prev-status.done{
+    color:var(--success);
+    font-weight:600;
+  }
+
+  .prev-status svg{
+    width:15px;
+    height:15px;
+  }
+
+  /* FOOTER */
+
+  .footer-actions{
+    margin-top:36px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .text-btn{
+    background:none;
+    border:none;
+    color:var(--ink-muted);
+    font-size:12.5px;
+    cursor:pointer;
+    padding:8px 10px;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
+  .text-btn:hover{
+    color:var(--ink-secondary);
+  }
+
+  /* MODALS */
+
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,15,17,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity var(--dur) var(--ease);
+  }
+
+  .modal-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .modal{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    max-width:340px;
+    width:100%;
+    box-shadow:var(--shadow-md);
+    transform:translateY(6px) scale(.98);
+    transition:transform var(--dur) var(--ease);
+  }
+
+  .modal-overlay.open .modal{
+    transform:translateY(0) scale(1);
+  }
+
+  .modal h3{
+    margin:0 0 8px;
+    font-size:16px;
+  }
+
+  .modal p{
+    margin:0 0 18px;
+    font-size:13.5px;
+    color:var(--ink-secondary);
+    line-height:1.5;
+  }
+
+  .modal-actions{
+    display:flex;
+    gap:10px;
+  }
+
+  .modal-actions button{
+    flex:1;
+    height:42px;
+    border-radius:9px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  .btn-cancel{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--ink);
+  }
+
+  .btn-danger{
+    background:var(--accent);
+    border:1px solid var(--accent);
+    color:#fff;
+  }
+
+  .btn-danger:hover{
+    background:var(--accent-ink);
+  }
+
+  /* CONNECTION STATUS */
+
+  .connection-status{
+    position:fixed;
+    bottom:16px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:90;
+    font-size:11px;
+    font-weight:700;
+    padding:7px 12px;
+    border-radius:99px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-md);
+    color:var(--ink-muted);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 200ms ease;
+  }
+
+  .connection-status.show{
+    opacity:1;
+  }
+
+  .connection-status.online{
+    color:var(--success);
+  }
+
+  .connection-status.offline{
+    color:var(--accent);
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{
+      animation-duration:.001ms!important;
+      transition-duration:.001ms!important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">AE</div>
+
+      <div class="brand-text">
+        <div class="brand-title">
+          FP&A <span class="x">×</span> BIDA
+        </div>
+
+        <div class="brand-sub">
+          Financial Analysis &amp; Business Intelligence
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+
+      <span class="live-badge">
+        <span class="live-dot"></span>
+        Live
+      </span>
+
+      <button class="edit-mode-btn" id="editModeBtn" type="button">
+
+        <svg id="lockIconClosed"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <rect x="4" y="10" width="16" height="10" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        </svg>
+
+        <svg id="lockIconOpen"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             style="display:none">
+          <rect x="4" y="10" width="16" height="10" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 7.4-2"/>
+        </svg>
+
+        <span id="editModeLabel">View only</span>
+
+      </button>
+
+      <span class="header-date tabular" id="headerDate"></span>
+
+      <button class="icon-btn"
+              id="themeToggle"
+              aria-label="Toggle dark mode"
+              aria-pressed="false">
+
+        <svg id="themeIconSun"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+
+        <svg id="themeIconMoon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             style="display:none">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/>
+        </svg>
+
+      </button>
+
+    </div>
+  </div>
+</header>
+
+
+<main class="shell">
+
+  <div id="stateBanner"></div>
+
+  <section class="hero" id="heroSection" aria-live="polite">
+
+    <div class="hero-left">
+
+      <span class="eyebrow" id="heroEyebrow">
+        TODAY'S PLAN
+      </span>
+
+      <div class="hero-date" id="heroDate">—</div>
+
+      <div class="hero-daycount">
+        Day
+        <span class="tabular" id="heroDayNum">—</span>
+        of
+        <span class="tabular" id="heroDayTotal">40</span>
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+
+      <div class="ring-wrap">
+
+        <svg viewBox="0 0 78 78">
+
+          <circle class="ring-track"
+                  cx="39"
+                  cy="39"
+                  r="33">
+          </circle>
+
+          <circle class="ring-progress"
+                  id="ringProgress"
+                  cx="39"
+                  cy="39"
+                  r="33"
+                  stroke-dasharray="207.3"
+                  stroke-dashoffset="207.3">
+          </circle>
+
+        </svg>
+
+        <div class="ring-label tabular" id="ringLabel">
+          0%
+        </div>
+
+      </div>
+
+      <div class="ring-caption" id="ringCaption">
+        0 / 40 days
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="stat-grid" aria-label="Today's study summary">
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3.5 2"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-value tabular" id="statTotal">
+        0h
+      </div>
+
+      <div class="stat-label">
+        Total Hours
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+        <div class="stat-icon accent">
+
+          <svg viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="M7 15l4-5 3 3 5-7"/>
+          </svg>
+
+        </div>
+      </div>
+
+      <div class="stat-value tabular" id="statFpap">
+        0h
+      </div>
+
+      <div class="stat-label">
+        FP&amp;A
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-top">
+
+        <div class="stat-icon dark">
+
+          <svg viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <rect x="3" y="12" width="4" height="8"/>
+            <rect x="10" y="7" width="4" height="13"/>
+            <rect x="17" y="3" width="4" height="17"/>
+          </svg>
+
+        </div>
+
+      </div>
+
+      <div class="stat-value tabular" id="statBida">
+        0h
+      </div>
+
+      <div class="stat-label">
+        BIDA
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <nav class="day-nav" aria-label="Day navigation">
+
+    <button class="nav-btn"
+            id="prevBtn"
+            aria-label="Previous day">
+
+      <svg viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2.2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+
+      Previous
+
+    </button>
+
+    <button class="nav-btn today" id="todayBtn">
+      Today
+    </button>
+
+    <button class="nav-btn"
+            id="nextBtn"
+            aria-label="Next day">
+
+      Next
+
+      <svg viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2.2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
+        <path d="M9 6l6 6-6 6"/>
+      </svg>
+
+    </button>
+
+  </nav>
+
+
+  <div class="date-picker-wrap">
+
+    <input type="date"
+           id="datePicker"
+           class="date-picker-input"
+           aria-label="Jump to a specific date">
+
+  </div>
+
+
+  <section aria-labelledby="tasksHeading">
+
+    <div class="section-head-row">
+
+      <div>
+
+        <h2 class="section-heading" id="tasksHeading">
+          Today's Tasks
+        </h2>
+
+        <p class="section-sub" id="tasksSub">
+          Your study plan for today
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="track-header">
+
+      <span class="track-dot fpap"></span>
+
+      <span class="track-name">
+        FP&amp;A
+      </span>
+
+      <span class="track-hours tabular"
+            id="fpapTrackHours">
+        0.0h
+      </span>
+
+    </div>
+
+    <ul class="task-list" id="fpapList"></ul>
+
+
+    <div class="track-header">
+
+      <span class="track-dot bida"></span>
+
+      <span class="track-name">
+        BIDA
+      </span>
+
+      <span class="track-hours tabular"
+            id="bidaTrackHours">
+        0.0h
+      </span>
+
+    </div>
+
+    <ul class="task-list" id="bidaList"></ul>
+
+
+    <div class="completion-row">
+
+      <span class="completion-text" id="completionText">
+        0 / 0 tasks completed
+      </span>
+
+      <span class="completion-pct tabular"
+            id="completionPct">
+        0%
+      </span>
+
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill"
+           id="completionFill"
+           style="width:0%">
+      </div>
+    </div>
+
+  </section>
+
+
+  <section aria-labelledby="upcomingHeading">
+
+    <h2 class="section-heading" id="upcomingHeading">
+      Coming Up
+    </h2>
+
+    <div id="upcomingContainer"></div>
+
+  </section>
+
+
+  <div id="previousContainer"></div>
+
+
+  <section aria-labelledby="planHeading">
+
+    <h2 class="section-heading" id="planHeading">
+      Plan Progress
+    </h2>
+
+    <div class="plan-card">
+
+      <div class="plan-top">
+
+        <div class="plan-frac tabular" id="planFrac">
+          0 / 40 days
+        </div>
+
+        <div class="plan-pct tabular" id="planPct">
+          0%
+        </div>
+
+      </div>
+
+      <div class="progress-track">
+
+        <div class="progress-fill"
+             id="planFill"
+             style="width:0%">
+        </div>
+
+      </div>
+
+      <div class="plan-meta-row">
+
+        <div class="plan-meta-item">
+
+          <div class="plan-meta-label">
+            Start
+          </div>
+
+          <div class="plan-meta-value"
+               id="planStart">
+            28 Aug 2026
+          </div>
+
+        </div>
+
+
+        <div class="plan-meta-item">
+
+          <div class="plan-meta-label">
+            End
+          </div>
+
+          <div class="plan-meta-value"
+               id="planEnd">
+            6 Oct 2026
+          </div>
+
+        </div>
+
+
+        <div class="plan-meta-item">
+
+          <div class="plan-meta-label">
+            Remaining
+          </div>
+
+          <div class="plan-meta-value"
+               id="planRemaining">
+            40 days
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="footer-actions">
+
+    <button class="text-btn" id="resetBtn">
+      Reset progress
+    </button>
+
+  </div>
+
+</main>
+
+
+<!-- RESET MODAL -->
+
+<div class="modal-overlay"
+     id="modalOverlay"
+     role="dialog"
+     aria-modal="true">
+
+  <div class="modal">
+
+    <h3>
+      Reset all progress?
+    </h3>
+
+    <p>
+      This will permanently clear all completed tasks from the shared study plan.
+    </p>
+
+    <div class="modal-actions">
+
+      <button class="btn-cancel"
+              id="modalCancel">
+        Cancel
+      </button>
+
+      <button class="btn-danger"
+              id="modalConfirm">
+        Reset Progress
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- PASSCODE MODAL -->
+
+<div class="modal-overlay"
+     id="passcodeOverlay"
+     role="dialog"
+     aria-modal="true">
+
+  <div class="modal">
+
+    <h3>
+      Enable editing
+    </h3>
+
+    <p id="passcodeDesc">
+      Enter your passcode to edit the shared study progress.
+    </p>
+
+    <input type="password"
+           inputmode="numeric"
+           class="passcode-input"
+           id="passcodeInput"
+           placeholder="••••"
+           autocomplete="off">
+
+    <div class="modal-error"
+         id="passcodeError">
+    </div>
+
+    <div class="modal-actions">
+
+      <button class="btn-cancel"
+              id="passcodeCancel">
+        Cancel
+      </button>
+
+      <button class="btn-danger"
+              id="passcodeSubmit"
+              style="background:var(--success);border-color:var(--success)">
+        Unlock
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="connection-status"
+     id="connectionStatus">
+  Connecting...
+</div>
+
+
+<!-- ============================================================
+     FIREBASE
+     ============================================================ -->
+
+<script type="module">
+
+  /*
+   * ============================================================
+   * 1. FIREBASE CONFIG
+   * ============================================================
+   *
+   * Replace these values with your Firebase project's Web App
+   * configuration.
+   *
+   * Firebase Console:
+   * Project settings
+   * → Your apps
+   * → Web app
+   * → SDK setup and configuration
+   */
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+    projectId: "YOUR_PROJECT_ID",
+
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+
+    appId: "YOUR_APP_ID"
+
+  };
+
+
+  /*
+   * ============================================================
+   * 2. INITIALIZE FIREBASE
+   * ============================================================
+   */
+
+  const firebaseApp = initializeApp(firebaseConfig);
+
+  const db = getFirestore(firebaseApp);
+
+
+  /*
+   * This document will contain all completed task IDs.
+   *
+   * Firestore:
+   *
+   * studyPlans
+   *      └── fpa-bida-2026
+   *             └── completedTasks: [...]
+   */
+
+  const PROGRESS_DOC =
+    doc(db, "studyPlans", "fpa-bida-2026");
+
+
+  /*
+   * ============================================================
+   * 3. STUDY PLAN
+   * ============================================================
+   */
+
+  const studyPlan = [
+
+    {date:"2026-08-28",fpap:[
+      {title:"Economic Analysis for FP&A",hours:3}
+    ],bida:[],totalHours:3},
+
+    {date:"2026-08-29",fpap:[
+      {title:"Economic Analysis for FP&A + Budgeting Processes",hours:3}
+    ],bida:[],totalHours:3},
+
+    {date:"2026-08-30",fpap:[
+      {title:"Budgeting Processes",hours:1}
+    ],bida:[
+      {title:"Introduction to Business Intelligence + Statistics Fundamentals",hours:2}
+    ],totalHours:3},
+
+    {date:"2026-08-31",fpap:[
+      {title:"FP&A Modeling Pt.1 - Design + Pt.2 - Formatting & Revenue",hours:3}
+    ],bida:[],totalHours:3},
+
+    {date:"2026-09-01",fpap:[
+      {title:"FP&A Modeling Pt.2 - Formatting & Revenue + Pt.3 - Headcount Analysis",hours:3}
+    ],bida:[],totalHours:3},
+
+    {date:"2026-09-02",fpap:[
+      {title:"FP&A Modeling Pt.4 - Contractor Analysis",hours:1}
+    ],bida:[
+      {title:"Power Query Fundamentals",hours:3}
+    ],totalHours:4},
+
+    {date:"2026-09-03",fpap:[
+      {title:"FP&A Modeling Pt.5 - Debt and Capex Analysis",hours:1.5}
+    ],bida:[
+      {title:"Power Query Fundamentals",hours:2.5}
+    ],totalHours:4},
+
+    {date:"2026-09-04",fpap:[
+      {title:"FP&A Modeling Pt.6 - Financial Statement Aggregation",hours:2}
+    ],bida:[
+      {title:"Power Query Fundamentals",hours:2}
+    ],totalHours:4},
+
+    {date:"2026-09-05",fpap:[
+      {title:"FP&A Modeling Pt.7 - Dashboard Visualizations",hours:1.5}
+    ],bida:[
+      {title:"Fundamentals of Data Analysis in Excel",hours:2.5}
+    ],totalHours:4},
+
+    {date:"2026-09-06",fpap:[
+      {title:"FP&A Modeling Pt.8 - 3-Statements",hours:3}
+    ],bida:[],totalHours:3},
+
+    {date:"2026-09-07",fpap:[],bida:[
+      {title:"Fundamentals of Data Analysis in Excel",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-08",fpap:[
+      {title:"FP&A Variance Pt.1 - Build & Configuration",hours:2}
+    ],bida:[
+      {title:"Fundamentals of Data Analysis in Excel",hours:2}
+    ],totalHours:4},
+
+    {date:"2026-09-09",fpap:[
+      {title:"FP&A Variance Pt.2 - Roll Forward & Analysis",hours:2}
+    ],bida:[
+      {title:"Fundamentals of Data Analysis in Excel",hours:2}
+    ],totalHours:4},
+
+    {date:"2026-09-10",fpap:[
+      {title:"FP&A Variance Pt.3 - Protection & Presentation",hours:2.5}
+    ],bida:[
+      {title:"Excel Case Study",hours:1.5}
+    ],totalHours:4},
+
+    {date:"2026-09-11",fpap:[
+      {title:"Data Visualization & Dashboards - The Basics",hours:1.5}
+    ],bida:[
+      {title:"Excel Case Study + Power Query Fundamentals Case Study",hours:2.5}
+    ],totalHours:4},
+
+    {date:"2026-09-12",fpap:[
+      {title:"FP&A Tool Selection",hours:2}
+    ],bida:[
+      {title:"Power Query Fundamentals Case Study + Intermediate DAX & Time Intelligence",hours:2}
+    ],totalHours:4},
+
+    {date:"2026-09-13",fpap:[
+      {title:"Workflow Best Practice for Analysts",hours:1.5}
+    ],bida:[
+      {title:"Intermediate DAX & Time Intelligence",hours:2.5}
+    ],totalHours:4},
+
+    {date:"2026-09-14",fpap:[
+      {title:"Communication and Presentation Skills for Finance Professionals",hours:2}
+    ],bida:[
+      {title:"Intermediate DAX & Time Intelligence",hours:2}
+    ],totalHours:4},
+
+    {date:"2026-09-15",fpap:[
+      {title:"Making Effective Business Decisions",hours:2.5}
+    ],bida:[
+      {title:"Intermediate DAX & Time Intelligence",hours:1.5}
+    ],totalHours:4},
+
+    {date:"2026-09-16",fpap:[
+      {title:"Making Effective Business Decisions",hours:1}
+    ],bida:[
+      {title:"Tableau Fundamentals",hours:3}
+    ],totalHours:4},
+
+    {date:"2026-09-17",fpap:[
+      {title:"Crafting the Narrative: Storytelling With Data",hours:2.5}
+    ],bida:[
+      {title:"Tableau Fundamentals",hours:1.5}
+    ],totalHours:4},
+
+    {date:"2026-09-18",fpap:[
+      {title:"Managing Your Stakeholders",hours:1.5}
+    ],bida:[
+      {title:"Tableau Fundamentals",hours:2.5}
+    ],totalHours:4},
+
+    {date:"2026-09-19",fpap:[],bida:[
+      {title:"Tableau Fundamentals",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-20",fpap:[
+      {title:"Final Revision",hours:3}
+    ],bida:[
+      {title:"Tableau Fundamentals",hours:1}
+    ],totalHours:4},
+
+    {date:"2026-09-21",fpap:[
+      {title:"Final Revision",hours:3}
+    ],bida:[
+      {title:"Tableau Fundamentals",hours:1}
+    ],totalHours:4},
+
+    {date:"2026-09-22",fpap:[
+      {title:"Final Revision",hours:3}
+    ],bida:[
+      {title:"Tableau Fundamentals Case Study",hours:1}
+    ],totalHours:4},
+
+    {date:"2026-09-23",fpap:[
+      {title:"Final Revision",hours:3}
+    ],bida:[
+      {title:"Tableau Fundamentals Case Study",hours:1}
+    ],totalHours:4},
+
+    {date:"2026-09-24",fpap:[
+      {title:"Final Revision",hours:3}
+    ],bida:[
+      {title:"Tableau Fundamentals Case Study",hours:1}
+    ],totalHours:4},
+
+    {date:"2026-09-25",fpap:[],bida:[
+      {title:"Tableau Fundamentals Case Study + Data Visualization & Dashboards - The Basics + SQL Fundamentals",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-26",fpap:[],bida:[
+      {title:"SQL Fundamentals",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-27",fpap:[],bida:[
+      {title:"SQL Fundamentals + SQL Case Study - WOWI Sales Analysis",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-28",fpap:[],bida:[
+      {title:"Getting Started with Python + Data Analysis With Python",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-29",fpap:[],bida:[
+      {title:"Data Analysis With Python",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-09-30",fpap:[],bida:[
+      {title:"Data Analysis With Python",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-10-01",fpap:[],bida:[
+      {title:"Regression Analysis - Fundamentals & Practical Applications",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-10-02",fpap:[],bida:[
+      {title:"Regression Analysis - Fundamentals & Practical Applications",hours:3}
+    ],totalHours:3},
+
+    {date:"2026-10-03",fpap:[],bida:[
+      {title:"Regression Analysis + Portfolio Optimization with Python - Case Study + Data Analysis in Power BI",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-10-04",fpap:[],bida:[
+      {title:"Data Analysis in Power BI",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-10-05",fpap:[],bida:[
+      {title:"Visuals and Design in Power BI",hours:4}
+    ],totalHours:4},
+
+    {date:"2026-10-06",fpap:[],bida:[
+      {title:"Visuals and Design in Power BI + Power BI Case Study – CFI Capital Partners",hours:4}
+    ],totalHours:4}
+
+  ].map(day => {
+
+    day.fpap = day.fpap.map((task,index) => ({
+      id:`${day.date}-fpap-${String(index+1).padStart(2,"0")}`,
+      ...task
+    }));
+
+    day.bida = day.bida.map((task,index) => ({
+      id:`${day.date}-bida-${String(index+1).padStart(2,"0")}`,
+      ...task
+    }));
+
+    return day;
+
+  });
+
+
+  const PLAN_START = studyPlan[0].date;
+  const PLAN_END = studyPlan[studyPlan.length-1].date;
+  const PLAN_LENGTH = studyPlan.length;
+
+  const indexByDate =
+    new Map(studyPlan.map((day,index)=>[day.date,index]));
+
+
+  /* ============================================================
+     4. HELPERS
+     ============================================================ */
+
+  function todayKey(){
+
+    const d = new Date();
+
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
+  }
+
+
+  function keyToDate(key){
+
+    const [y,m,d] = key.split("-").map(Number);
+
+    return new Date(y,m-1,d);
+
+  }
+
+
+  function addDaysToKey(key,delta){
+
+    const d = keyToDate(key);
+
+    d.setDate(d.getDate()+delta);
+
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
+  }
+
+
+  function formatLong(key){
+
+    return keyToDate(key).toLocaleDateString("en-US",{
+      weekday:"long",
+      month:"long",
+      day:"numeric"
+    });
+
+  }
+
+
+  function formatMed(key){
+
+    return keyToDate(key).toLocaleDateString("en-US",{
+      day:"numeric",
+      month:"short",
+      year:"numeric"
+    });
+
+  }
+
+
+  function formatWeekdayShort(key){
+
+    return keyToDate(key).toLocaleDateString("en-US",{
+      weekday:"long"
+    });
+
+  }
+
+
+  function fmtHours(h){
+
+    return (Math.round(h*10)/10)
+      .toFixed(1)
+      .replace(/\.0$/,"")+"h";
+
+  }
+
+
+  function fmtHours1(h){
+
+    return (Math.round(h*10)/10).toFixed(1)+"h";
+
+  }
+
+
+  function planState(key){
+
+    if(key < PLAN_START) return "before";
+
+    if(key > PLAN_END) return "after";
+
+    return "active";
+
+  }
+
+
+  function escapeHtml(str){
+
+    return String(str).replace(
+      /[&<>"']/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[c])
+    );
+
+  }
+
+
+  /* ============================================================
+     5. DOM
+     ============================================================ */
+
+  const el = id => document.getElementById(id);
+
+  const stateBanner = el("stateBanner");
+
+  const headerDate = el("headerDate");
+
+  const heroEyebrow = el("heroEyebrow");
+  const heroDate = el("heroDate");
+  const heroDayNum = el("heroDayNum");
+  const heroDayTotal = el("heroDayTotal");
+
+  const ringProgress = el("ringProgress");
+  const ringLabel = el("ringLabel");
+  const ringCaption = el("ringCaption");
+
+  const statTotal = el("statTotal");
+  const statFpap = el("statFpap");
+  const statBida = el("statBida");
+
+  const fpapList = el("fpapList");
+  const bidaList = el("bidaList");
+
+  const fpapTrackHours = el("fpapTrackHours");
+  const bidaTrackHours = el("bidaTrackHours");
+
+  const tasksSub = el("tasksSub");
+
+  const completionText = el("completionText");
+  const completionPct = el("completionPct");
+  const completionFill = el("completionFill");
+
+  const upcomingContainer = el("upcomingContainer");
+  const previousContainer = el("previousContainer");
+
+  const planFrac = el("planFrac");
+  const planPct = el("planPct");
+  const planFill = el("planFill");
+  const planStart = el("planStart");
+  const planEnd = el("planEnd");
+  const planRemaining = el("planRemaining");
+
+  const prevBtn = el("prevBtn");
+  const nextBtn = el("nextBtn");
+  const todayBtn = el("todayBtn");
+  const datePicker = el("datePicker");
+
+  const resetBtn = el("resetBtn");
+
+  const modalOverlay = el("modalOverlay");
+  const modalCancel = el("modalCancel");
+  const modalConfirm = el("modalConfirm");
+
+  const themeToggle = el("themeToggle");
+  const themeIconSun = el("themeIconSun");
+  const themeIconMoon = el("themeIconMoon");
+
+  const editModeBtn = el("editModeBtn");
+  const editModeLabel = el("editModeLabel");
+  const lockIconClosed = el("lockIconClosed");
+  const lockIconOpen = el("lockIconOpen");
+
+  const passcodeOverlay = el("passcodeOverlay");
+  const passcodeInput = el("passcodeInput");
+  const passcodeError = el("passcodeError");
+  const passcodeSubmit = el("passcodeSubmit");
+  const passcodeCancel = el("passcodeCancel");
+  const passcodeDesc = el("passcodeDesc");
+
+  const connectionStatus = el("connectionStatus");
+
+
+  datePicker.min = PLAN_START;
+  datePicker.max = PLAN_END;
+
+  planStart.textContent = formatMed(PLAN_START);
+  planEnd.textContent = formatMed(PLAN_END);
+  heroDayTotal.textContent = PLAN_LENGTH;
+
+
+  /* ============================================================
+     6. STATE
+     ============================================================ */
+
+  const today = todayKey();
+
+  let currentKey;
+
+  if(planState(today)==="active"){
+    currentKey = today;
+  }else{
+    currentKey =
+      planState(today)==="before"
+        ? PLAN_START
+        : PLAN_END;
+  }
+
+
+  /*
+   * Progress is now shared through Firestore.
+   */
+
+  let progress = {};
+
+  let editUnlocked = false;
+
+
+  /* ============================================================
+     7. FIREBASE DATA
+     ============================================================ */
+
+  function progressObjectFromArray(arr){
+
+    const result = {};
+
+    if(Array.isArray(arr)){
+
+      arr.forEach(id=>{
+        if(typeof id === "string"){
+          result[id] = true;
+        }
+      });
+
+    }
+
+    return result;
+
+  }
+
+
+  function progressArray(){
+
+    return Object.keys(progress)
+      .filter(id => progress[id] === true);
+
+  }
+
+
+  async function loadProgress(){
+
+    try{
+
+      const snapshot =
+        await getDoc(PROGRESS_DOC);
+
+      if(!snapshot.exists()){
+
+        return {};
+
+      }
+
+      const data = snapshot.data();
+
+      return progressObjectFromArray(
+        data.completedTasks || []
+      );
+
+    }catch(error){
+
+      console.error(
+        "Failed to load Firestore progress:",
+        error
+      );
+
+      showConnectionStatus(
+        "Unable to connect",
+        "offline"
+      );
+
+      return {};
+
+    }
+
+  }
+
+
+  async function saveProgress(){
+
+    try{
+
+      await setDoc(
+        PROGRESS_DOC,
+        {
+          completedTasks:progressArray(),
+          updatedAt:new Date().toISOString()
+        },
+        {merge:true}
+      );
+
+      showConnectionStatus(
+        "Saved",
+        "online",
+        1200
+      );
+
+    }catch(error){
+
+      console.error(
+        "Failed to save Firestore progress:",
+        error
+      );
+
+      showConnectionStatus(
+        "Save failed",
+        "offline"
+      );
+
+      throw error;
+
+    }
+
+  }
+
+
+  function startRealtimeSync(){
+
+    return onSnapshot(
+
+      PROGRESS_DOC,
+
+      snapshot => {
+
+        if(snapshot.exists()){
+
+          const data = snapshot.data();
+
+          const latest =
+            progressObjectFromArray(
+              data.completedTasks || []
+            );
+
+          progress = latest;
+
+          render();
+
+        }
+
+        showConnectionStatus(
+          "Live",
+          "online",
+          1200
+        );
+
+      },
+
+      error => {
+
+        console.error(
+          "Firestore realtime listener error:",
+          error
+        );
+
+        showConnectionStatus(
+          "Connection problem",
+          "offline"
+        );
+
+      }
+
+    );
+
+  }
+
+
+  /* ============================================================
+     8. CONNECTION STATUS
+     ============================================================ */
+
+  let connectionTimer;
+
+  function showConnectionStatus(
+    text,
+    type="online",
+    duration=2000
+  ){
+
+    connectionStatus.textContent = text;
+
+    connectionStatus.classList.add("show");
+
+    connectionStatus.classList.toggle(
+      "online",
+      type==="online"
+    );
+
+    connectionStatus.classList.toggle(
+      "offline",
+      type==="offline"
+    );
+
+    clearTimeout(connectionTimer);
+
+    connectionTimer =
+      setTimeout(
+        ()=>{
+          connectionStatus.classList.remove("show");
+        },
+        duration
+      );
+
+  }
+
+
+  /* ============================================================
+     9. THEME
+     ============================================================ */
+
+  function applyTheme(mode){
+
+    document.documentElement
+      .setAttribute("data-theme",mode);
+
+    themeIconSun.style.display =
+      mode==="dark" ? "none" : "block";
+
+    themeIconMoon.style.display =
+      mode==="dark" ? "block" : "none";
+
+    themeToggle.setAttribute(
+      "aria-pressed",
+      mode==="dark" ? "true" : "false"
+    );
+
+  }
+
+
+  function initTheme(){
+
+    const stored =
+      localStorage.getItem("themePreference");
+
+    if(stored==="light" || stored==="dark"){
+
+      applyTheme(stored);
+
+      return;
+
+    }
+
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+    applyTheme(
+      prefersDark ? "dark" : "light"
+    );
+
+  }
+
+
+  themeToggle.addEventListener(
+    "click",
+    ()=>{
+
+      const current =
+        document.documentElement
+          .getAttribute("data-theme");
+
+      const next =
+        current==="dark" ? "light" : "dark";
+
+      applyTheme(next);
+
+      localStorage.setItem(
+        "themePreference",
+        next
+      );
+
+    }
+  );
+
+
+  initTheme();
+
+
+  /* ============================================================
+     10. EDIT LOCK
+     ============================================================
+     
+     IMPORTANT:
+     
+     This is a UI lock only.
+     
+     Real security must come from Firestore Security Rules.
+     
+     This demo stores a SHA-256 hash locally.
+     
+     DO NOT consider this password system sufficient security
+     until Firestore Authentication + Rules are configured.
+     ============================================================ */
+
+  const DEVICE_UNLOCK_KEY =
+    "fpaBidaEditingUnlocked";
+
+  /*
+   * Change this value.
+   *
+   * This is NOT a secure server-side password.
+   *
+   * For real protection, use Firebase Authentication.
+   */
+
+  const EDIT_PASSWORD =
+    "CHANGE_THIS_PASSWORD";
+
+
+  async function sha256(text){
+
+    const buffer =
+      await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(text)
+      );
+
+    return Array
+      .from(new Uint8Array(buffer))
+      .map(
+        b=>b.toString(16).padStart(2,"0")
+      )
+      .join("");
+
+  }
+
+
+  function setEditUnlocked(state){
+
+    editUnlocked = state;
+
+    editModeBtn.classList.toggle(
+      "unlocked",
+      state
+    );
+
+    editModeLabel.textContent =
+      state
+        ? "Editing on"
+        : "View only";
+
+    lockIconClosed.style.display =
+      state ? "none" : "block";
+
+    lockIconOpen.style.display =
+      state ? "block" : "none";
+
+    resetBtn.style.display =
+      state ? "inline" : "none";
+
+    document
+      .querySelectorAll(".task-check")
+      .forEach(button=>{
+
+        button.classList.toggle(
+          "locked",
+          !state
+        );
+
+        button.setAttribute(
+          "aria-disabled",
+          String(!state)
+        );
+
+      });
+
+  }
+
+
+  function openPasscodeModal(){
+
+    passcodeInput.value = "";
+
+    passcodeError.textContent = "";
+
+    passcodeDesc.textContent =
+      "Enter your passcode to enable editing on this device.";
+
+    passcodeOverlay.classList.add("open");
+
+    setTimeout(
+      ()=>passcodeInput.focus(),
+      50
+    );
+
+  }
+
+
+  function closePasscodeModal(){
+
+    passcodeOverlay.classList.remove("open");
+
+  }
+
+
+  editModeBtn.addEventListener(
+    "click",
+    ()=>{
+
+      if(editUnlocked){
+
+        setEditUnlocked(false);
+
+        localStorage.removeItem(
+          DEVICE_UNLOCK_KEY
+        );
+
+        return;
+
+      }
+
+      openPasscodeModal();
+
+    }
+  );
+
+
+  passcodeCancel.addEventListener(
+    "click",
+    closePasscodeModal
+  );
+
+
+  passcodeOverlay.addEventListener(
+    "click",
+    event=>{
+
+      if(event.target===passcodeOverlay){
+
+        closePasscodeModal();
+
+      }
+
+    }
+  );
+
+
+  passcodeInput.addEventListener(
+    "keydown",
+    event=>{
+
+      if(event.key==="Enter"){
+
+        passcodeSubmit.click();
+
+      }
+
+    }
+  );
+
+
+  passcodeSubmit.addEventListener(
+    "click",
+    async ()=>{
+
+      const entered =
+        passcodeInput.value.trim();
+
+      if(entered.length < 4){
+
+        passcodeError.textContent =
+          "Use at least 4 characters.";
+
+        return;
+
+      }
+
+
+      if(entered !== EDIT_PASSWORD){
+
+        passcodeError.textContent =
+          "Incorrect passcode.";
+
+        return;
+
+      }
+
+
+      const hash =
+        await sha256(entered);
+
+      localStorage.setItem(
+        DEVICE_UNLOCK_KEY,
+        hash
+      );
+
+      setEditUnlocked(true);
+
+      closePasscodeModal();
+
+    }
+  );
+
+
+  async function initEditLock(){
+
+    setEditUnlocked(false);
+
+  }
+
+
+  /* ============================================================
+     11. TASK HTML
+     ============================================================ */
+
+  const CHECK_ICON = `
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="3"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+      <path d="M20 6L9 17l-5-5"/>
+    </svg>
+  `;
+
+
+  function taskListHtml(
+    tasks,
+    trackClass
+  ){
+
+    return tasks.map(task=>{
+
+      const done =
+        !!progress[task.id];
+
+      const locked =
+        !editUnlocked;
+
+      const label =
+        locked
+          ? "View only — unlock editing"
+          : done
+            ? `Mark ${task.title} as incomplete`
+            : `Mark ${task.title} as complete`;
+
+      return `
+
+        <li class="task-card ${done ? "completed" : ""}"
+            data-id="${task.id}">
+
+          <button
+            type="button"
+            class="task-check
+                   ${done ? "checked" : ""}
+                   ${locked ? "locked" : ""}"
+            role="checkbox"
+            aria-checked="${done}"
+            aria-disabled="${locked}"
+            aria-label="${escapeHtml(label)}"
+            data-id="${task.id}">
+
+            ${CHECK_ICON}
+
+          </button>
+
+          <div class="task-body">
+
+            <div class="task-title">
+              ${escapeHtml(task.title)}
+            </div>
+
+            <div class="task-meta">
+
+              <span class="badge ${trackClass}">
+                ${trackClass==="fpap" ? "FP&A" : "BIDA"}
+              </span>
+
+              <span class="task-hours tabular">
+                ${fmtHours1(task.hours)}
+              </span>
+
+            </div>
+
+          </div>
+
+        </li>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  /* ============================================================
+     12. STATE BANNER
+     ============================================================ */
+
+  function renderStateBanner(){
+
+    const state =
+      planState(today);
+
+    if(state==="before"){
+
+      const daysUntil =
+        Math.round(
+          (
+            keyToDate(PLAN_START) -
+            keyToDate(today)
+          ) / 86400000
+        );
+
+      stateBanner.innerHTML = `
+
+        <div class="state-banner">
+
+          <span class="eyebrow">
+            PLAN NOT STARTED
+          </span>
+
+          <h2>
+            Your plan hasn't started yet.
+          </h2>
+
+          <p>
+            Starts ${formatMed(PLAN_START)}
+            · ${daysUntil} day${daysUntil===1 ? "" : "s"} to go
+          </p>
+
+        </div>
+
+      `;
+
+    }else if(state==="after"){
+
+      stateBanner.innerHTML = `
+
+        <div class="state-banner">
+
+          <span class="eyebrow">
+            PLAN COMPLETED
+          </span>
+
+          <h2>
+            Plan Completed
+          </h2>
+
+          <p>
+            You reached the end of your
+            FP&A × BIDA study plan.
+          </p>
+
+        </div>
+
+      `;
+
+    }else{
+
+      stateBanner.innerHTML = "";
+
+    }
+
+  }
+
+
+  /* ============================================================
+     13. RENDER
+     ============================================================ */
+
+  function render(){
+
+    renderStateBanner();
+
+    const idx =
+      indexByDate.get(currentKey);
+
+    const day =
+      studyPlan[idx];
+
+    if(!day) return;
+
+    const isToday =
+      currentKey===today;
+
+    const isFinalDay =
+      currentKey===PLAN_END;
+
+
+    headerDate.textContent =
+      keyToDate(today)
+        .toLocaleDateString(
+          "en-US",
+          {
+            weekday:"short",
+            month:"short",
+            day:"numeric"
+          }
+        );
+
+
+    /*
+     * HERO
+     */
+
+    heroEyebrow.textContent =
+      isToday
+        ? "TODAY'S PLAN"
+        : isFinalDay
+          ? "FINAL DAY"
+          : "VIEWING PLAN";
+
+    heroDate.textContent =
+      formatLong(currentKey);
+
+    heroDayNum.textContent =
+      idx+1;
+
+
+    const ringPct =
+      Math.round(
+        ((idx+1)/PLAN_LENGTH)*100
+      );
+
+    const circumference =
+      2*Math.PI*33;
+
+    ringProgress.setAttribute(
+      "stroke-dasharray",
+      circumference.toFixed(1)
+    );
+
+    ringProgress.setAttribute(
+      "stroke-dashoffset",
+      (
+        circumference *
+        (1-(idx+1)/PLAN_LENGTH)
+      ).toFixed(1)
+    );
+
+    ringLabel.textContent =
+      `${ringPct}%`;
+
+    ringCaption.textContent =
+      `${idx+1} / ${PLAN_LENGTH} days`;
+
+
+    /*
+     * STATS
+     */
+
+    const fpapHours =
+      day.fpap.reduce(
+        (sum,t)=>sum+t.hours,
+        0
+      );
+
+    const bidaHours =
+      day.bida.reduce(
+        (sum,t)=>sum+t.hours,
+        0
+      );
+
+
+    statTotal.textContent =
+      fmtHours(day.totalHours);
+
+    statFpap.textContent =
+      fmtHours(fpapHours);
+
+    statBida.textContent =
+      fmtHours(bidaHours);
+
+
+    /*
+     * TASKS
+     */
+
+    tasksSub.textContent =
+      isToday
+        ? "Your study plan for today"
+        : `Study plan for ${formatLong(currentKey)}`;
+
+
+    fpapTrackHours.textContent =
+      fmtHours1(fpapHours);
+
+    bidaTrackHours.textContent =
+      fmtHours1(bidaHours);
+
+
+    fpapList.innerHTML =
+      day.fpap.length
+        ? taskListHtml(day.fpap,"fpap")
+        : `
+          <li>
+            <div class="empty-state">
+              No FP&amp;A sessions scheduled today.
+            </div>
+          </li>
+        `;
+
+
+    bidaList.innerHTML =
+      day.bida.length
+        ? taskListHtml(day.bida,"bida")
+        : `
+          <li>
+            <div class="empty-state">
+              No BIDA sessions scheduled today.
+            </div>
+          </li>
+        `;
+
+
+    /*
+     * COMPLETION
+     */
+
+    const allTasks =
+      [...day.fpap,...day.bida];
+
+    const completedCount =
+      allTasks.filter(
+        task=>progress[task.id]
+      ).length;
+
+    const pct =
+      allTasks.length
+        ? Math.round(
+            (completedCount/allTasks.length)*100
+          )
+        : 0;
+
+
+    completionText.textContent =
+      `${completedCount} / ${allTasks.length} task${allTasks.length===1 ? "" : "s"} completed`;
+
+    completionPct.textContent =
+      `${pct}%`;
+
+    completionFill.style.width =
+      `${pct}%`;
+
+    completionFill.classList.toggle(
+      "success",
+      pct===100 &&
+      allTasks.length>0
+    );
+
+
+    /*
+     * UPCOMING
+     */
+
+    if(idx < PLAN_LENGTH-1){
+
+      const next =
+        studyPlan[idx+1];
+
+      const nextFpap =
+        next.fpap
+          .map(
+            task=>`
+              <li>
+                FP&amp;A ·
+                <b>${escapeHtml(task.title)}</b>
+              </li>
+            `
+          )
+          .join("");
+
+      const nextBida =
+        next.bida
+          .map(
+            task=>`
+              <li>
+                BIDA ·
+                <b>${escapeHtml(task.title)}</b>
+              </li>
+            `
+          )
+          .join("");
+
+      const label =
+        addDaysToKey(currentKey,1)===today
+          ? "Tomorrow"
+          : formatWeekdayShort(next.date);
+
+
+      upcomingContainer.innerHTML = `
+
+        <div class="side-card">
+
+          <div class="side-card-head">
+
+            <div>
+
+              <div class="side-card-label">
+                ${label==="Tomorrow" ? "Tomorrow" : "Next Session"}
+              </div>
+
+              <div class="side-card-date">
+                ${formatLong(next.date)}
+              </div>
+
+            </div>
+
+            <div class="side-card-hours tabular">
+              ${fmtHours1(next.totalHours)}
+            </div>
+
+          </div>
+
+          <ul class="side-card-list">
+            ${nextFpap}
+            ${nextBida}
+          </ul>
+
+          <button
+            type="button"
+            class="view-day-btn"
+            id="viewNextDayBtn">
+
+            View day
+
+            <svg viewBox="0 0 24 24"
+                 width="14"
+                 height="14"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2.2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M9 6l6 6-6 6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      `;
+
+
+      el("viewNextDayBtn")
+        .addEventListener(
+          "click",
+          ()=>goToKey(next.date)
+        );
+
+    }else{
+
+      upcomingContainer.innerHTML = `
+        <div class="empty-state">
+          You've reached the end of the plan.
+        </div>
+      `;
+
+    }
+
+
+    /*
+     * PREVIOUS
+     */
+
+    if(idx>0){
+
+      const prev =
+        studyPlan[idx-1];
+
+      const prevTasks =
+        [...prev.fpap,...prev.bida];
+
+      const prevCompleted =
+        prevTasks.filter(
+          task=>progress[task.id]
+        ).length;
+
+      const allDone =
+        prevTasks.length>0 &&
+        prevCompleted===prevTasks.length;
+
+
+      previousContainer.innerHTML = `
+
+        <div class="side-card"
+             style="margin-top:14px">
+
+          <div class="side-card-label">
+            Yesterday
+          </div>
+
+          <div class="prev-status ${allDone ? "done" : ""}"
+               style="margin-top:6px">
+
+            ${
+              allDone
+                ? CHECK_ICON+" Completed"
+                : `${prevCompleted} / ${prevTasks.length} tasks completed`
+            }
+
+          </div>
+
+        </div>
+
+      `;
+
+    }else{
+
+      previousContainer.innerHTML = "";
+
+    }
+
+
+    /*
+     * PLAN PROGRESS
+     */
+
+    const todayState =
+      planState(today);
+
+    let planIdx;
+
+    if(todayState==="before"){
+
+      planIdx=-1;
+
+    }else if(todayState==="after"){
+
+      planIdx=PLAN_LENGTH-1;
+
+    }else{
+
+      planIdx =
+        indexByDate.get(today);
+
+    }
+
+
+    const daysElapsed =
+      Math.max(0,planIdx+1);
+
+    const planPctVal =
+      Math.round(
+        (daysElapsed/PLAN_LENGTH)*100
+      );
+
+
+    planFrac.textContent =
+      `${daysElapsed} / ${PLAN_LENGTH} days`;
+
+    planPct.textContent =
+      `${planPctVal}%`;
+
+    planFill.style.width =
+      `${planPctVal}%`;
+
+
+    let remaining;
+
+    if(todayState==="before"){
+
+      remaining=PLAN_LENGTH;
+
+    }else if(todayState==="after"){
+
+      remaining=0;
+
+    }else{
+
+      remaining =
+        PLAN_LENGTH-daysElapsed;
+
+    }
+
+
+    planRemaining.textContent =
+      `${remaining} day${remaining===1 ? "" : "s"}`;
+
+
+    /*
+     * NAV
+     */
+
+    prevBtn.disabled =
+      idx===0;
+
+    nextBtn.disabled =
+      idx===PLAN_LENGTH-1;
+
+    datePicker.value =
+      currentKey;
+
+
+    /*
+     * Re-apply lock state to new task buttons
+     */
+
+    document
+      .querySelectorAll(".task-check")
+      .forEach(button=>{
+
+        button.classList.toggle(
+          "locked",
+          !editUnlocked
+        );
+
+        button.setAttribute(
+          "aria-disabled",
+          String(!editUnlocked)
+        );
+
+      });
+
+  }
+
+
+  /* ============================================================
+     14. NAVIGATION
+     ============================================================ */
+
+  function goToKey(key){
+
+    if(!indexByDate.has(key)) return;
+
+    currentKey=key;
+
+    render();
+
+  }
+
+
+  prevBtn.addEventListener(
+    "click",
+    ()=>{
+
+      const idx =
+        indexByDate.get(currentKey);
+
+      if(idx>0){
+
+        goToKey(
+          studyPlan[idx-1].date
+        );
+
+      }
+
+    }
+  );
+
+
+  nextBtn.addEventListener(
+    "click",
+    ()=>{
+
+      const idx =
+        indexByDate.get(currentKey);
+
+      if(idx<PLAN_LENGTH-1){
+
+        goToKey(
+          studyPlan[idx+1].date
+        );
+
+      }
+
+    }
+  );
+
+
+  todayBtn.addEventListener(
+    "click",
+    ()=>{
+
+      const state =
+        planState(today);
+
+      goToKey(
+        state==="before"
+          ? PLAN_START
+          : state==="after"
+            ? PLAN_END
+            : today
+      );
+
+    }
+  );
+
+
+  datePicker.addEventListener(
+    "change",
+    ()=>{
+
+      if(
+        datePicker.value &&
+        indexByDate.has(datePicker.value)
+      ){
+
+        goToKey(
+          datePicker.value
+        );
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event=>{
+
+      if(
+        ["INPUT","TEXTAREA"]
+          .includes(
+            document.activeElement.tagName
+          )
+      ) return;
+
+      if(
+        event.key==="ArrowLeft" &&
+        !prevBtn.disabled
+      ){
+
+        prevBtn.click();
+
+      }else if(
+        event.key==="ArrowRight" &&
+        !nextBtn.disabled
+      ){
+
+        nextBtn.click();
+
+      }else if(
+        event.key==="t" ||
+        event.key==="T"
+      ){
+
+        todayBtn.click();
+
+      }
+
+    }
+  );
+
+
+  /* ============================================================
+     15. TASK TOGGLE
+     ============================================================ */
+
+  async function toggleTask(id){
+
+    if(!editUnlocked){
+
+      showConnectionStatus(
+        "View only",
+        "offline",
+        1200
+      );
+
+      return;
+
+    }
+
+
+    const previous =
+      {...progress};
+
+
+    /*
+     * Optimistic UI
+     */
+
+    if(progress[id]){
+
+      delete progress[id];
+
+    }else{
+
+      progress[id]=true;
+
+    }
+
+
+    render();
+
+
+    try{
+
+      await saveProgress();
+
+    }catch(error){
+
+      /*
+       * Roll back if save failed.
+       */
+
+      progress =
+        previous;
+
+      render();
+
+    }
+
+  }
+
+
+  [fpapList,bidaList].forEach(
+    list=>{
+
+      list.addEventListener(
+        "click",
+        event=>{
+
+          const button =
+            event.target.closest(
+              ".task-check"
+            );
+
+          if(!button) return;
+
+          toggleTask(
+            button.dataset.id
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  /* ============================================================
+     16. RESET
+     ============================================================ */
+
+  function openModal(){
+
+    modalOverlay.classList.add("open");
+
+    modalConfirm.focus();
+
+  }
+
+
+  function closeModal(){
+
+    modalOverlay.classList.remove("open");
+
+  }
+
+
+  resetBtn.addEventListener(
+    "click",
+    ()=>{
+
+      if(editUnlocked){
+
+        openModal();
+
+      }
+
+    }
+  );
+
+
+  modalCancel.addEventListener(
+    "click",
+    closeModal
+  );
+
+
+  modalOverlay.addEventListener(
+    "click",
+    event=>{
+
+      if(event.target===modalOverlay){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event=>{
+
+      if(
+        event.key==="Escape" &&
+        modalOverlay.classList.contains("open")
+      ){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+  modalConfirm.addEventListener(
+    "click",
+    async ()=>{
+
+      if(!editUnlocked) return;
+
+      const previous =
+        {...progress};
+
+      progress={};
+
+      render();
+
+      try{
+
+        await saveProgress();
+
+        closeModal();
+
+      }catch(error){
+
+        progress =
+          previous;
+
+        render();
+
+      }
+
+    }
+  );
+
+
+  /* ============================================================
+     17. INITIALIZATION
+     ============================================================ */
+
+  async function init(){
+
+    /*
+     * Everyone starts View Only.
+     */
+
+    await initEditLock();
+
+
+    /*
+     * Load shared progress.
+     */
+
+    progress =
+      await loadProgress();
+
+
+    render();
+
+
+    /*
+     * Listen for realtime updates.
+     *
+     * If you check a task on your phone,
+     * another device connected to the same page
+     * receives the update automatically.
+     */
+
+    startRealtimeSync();
+
+
+  }
+
+
+  init();
+
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCym00pQ462Niu6pxfAfgQv0RrLbHQdCHk",
+    authDomain: "tasks-b9e5b.firebaseapp.com",
+    databaseURL: "https://tasks-b9e5b-default-rtdb.firebaseio.com",
+    projectId: "tasks-b9e5b",
+    storageBucket: "tasks-b9e5b.firebasestorage.app",
+    messagingSenderId: "518089755220",
+    appId: "1:518089755220:web:ffd614c427afc71bd1fbc1",
+    measurementId: "G-39DH6M0GN2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  console.log("Firebase connected successfully!");
+</script>
+</body>
+  </html>
